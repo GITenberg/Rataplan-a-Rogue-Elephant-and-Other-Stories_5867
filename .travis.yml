@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: prGtjBwqpfv8DPKhUDi4ImOUsKmIcpWlbILNsTgFskRFHgVNWia3kKN+aXBvkIjn+j3Kn2wpTNE29Il4RhJAeQV+ONvjEgClw6P+oUOUe3KDjniTfyLcIb/d8wubrk1vvPh3ucZJUUP8X5BIK8KVCsDc94DzX6s/nNphJzHfHJffz3d5woJKMUITwk/noPJeU3z5ConwFT+QPYtzvUaj4pA5q9HjsJQSjBt3r+XJUdettka7yqH466ZALBaXrjR5CoPf3ntu2c9DZjFYcH6P/NenMhSNu2R52fzhQUc29Yu5pi6Wnomtj1vxUpBPWfmF4AFOgghg40gbNP9HHcpNEPpat56BvzOBsZDJqfdev9cEvEfwWRgbji/uPM7te4EMYiY/KBA5FBtRNwr6KlUau2lIAU6QLMopwaIvKp7q8a8/0ETRYlFuibBp2b4YMl+FgGQm/+2py9bJHUqEcaHY5b6D8UaNbAWsP7AX69eMHkYNLF+WlXcCDftONyCauLrV7xCcYVuVhY4/JslOIxNhkgO2lMuxjdOQsEcohWKs/+gtQSj1rBBjw8wxOtRFSoN1FfHQhG8V6SKvQWVKzh9XvBR5Djo9whv9b8LKdanEngdh/eR0pdxxa0HHRFMmW/0mFSRvTZdx1ZIQhojHdIYMAMtOQAoCNXMnkGHGnfaKUC0=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Rataplan-a-Rogue-Elephant-and-Other-Stories_5867
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
