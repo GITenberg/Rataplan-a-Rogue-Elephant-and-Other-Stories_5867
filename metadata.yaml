@@ -1,5 +1,5 @@
 _repo: Rataplan-a-Rogue-Elephant-and-Other-Stories_5867
-_version: 0.2.0
+_version: 0.2.1
 covers:
 - cover_type: generated
   image_path: cover.png
@@ -22,6 +22,7 @@ rights_url: http://creativecommons.org/about/pdm
 subjects:
 - !lcc 'PZ'
 - !lcsh 'Animals -- Juvenile fiction'
+- GITenberg
 tableOfContents: Rataplan, rogue -- Géan, the giraffe -- Keesa, the kangaroo -- Cara,
   the camel -- Siccatee, the squirrel -- Leo, the lion -- Chaffer, the chamois --
   Jinks, the jackal -- Pero, the porcupine -- Tera, the tigress -- Hippo, hippopotamus
